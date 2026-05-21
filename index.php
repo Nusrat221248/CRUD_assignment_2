@@ -1,80 +1,97 @@
 <?php
    session_start();
-    include "header.php";
+   include "header.php";
 ?>
 
 <div class="container">
+    <?php
+if (isset($_SESSION['success'])) { ?>
+
+    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto text-success">Successfully user added!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-success">
+            <?= $_SESSION['success'] ?>
+        </div>
+    </div>
+
+<?php    }
+?>
+
+
     <div class="card col-md-6 mx-auto mt-3">
         <div class="card-header">
             <h3 class="text-center text-secondary">Add User</h3>
         </div>
         <div class="card-body">
             <form action="./controllers/addUserController.php" method="POST" enctype="multipart/form-data">
+                
+                <!-- Name -->
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name" />
-
-                    <?php
-                      if(isset($_SESSION['error'])){?>
-                        <span class="text-danger"> <?=$_SESSION['error'] ?> </span>
-
-                <?php   }
-                ?>
+                    <?php if(isset($_SESSION['name_err'])){ ?>
+                        <span class="text-danger"><?=$_SESSION['name_err'] ?></span>
+                    <?php } ?>
                 </div>
+
+                <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" />
-
-                    <?php
-                      if(isset($_SESSION['error'])){?>
-                        <span class="text-danger"> <?=$_SESSION['error'] ?> </span>
-
-                <?php   }
-                ?>
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Enter your phone number" />
-                    <?php
-                      if(isset($_SESSION['error'])){?>
-                        <span class="text-danger"> <?=$_SESSION['error'] ?> </span>
-
-                <?php   }
-                ?>
+                    <?php if(isset($_SESSION['email_err'])){ ?>
+                        <span class="text-danger"><?=$_SESSION['email_err'] ?></span>
+                    <?php } ?>
                 </div>
 
+                
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" id="description" class="form-control summernote"></textarea>
+                    <?php if(isset($_SESSION['description_err'])){ ?>
+                        <span class="text-danger"><?=$_SESSION['description_err'] ?></span>
+                    <?php } ?>
+                </div>
 
+                
+                <div class="mb-3">
+                    <label for="experience" class="form-label">Experience</label>
+                    <textarea name="experience" id="experience" class="form-control summernote"></textarea>
+                </div>
 
                 <div class="mb-3">
-                    <label for="Description" class="form-label">Description</label>
-                    <textarea name="Description" id="Description" class="form-control summernote"></textarea>
-</div>
-                    <div class="mb-3">
-                    <label for="Experience" class="form-label">Experience</label>
-                    <textarea name="Experience" id="Experience" class="form-control summernote"></textarea>
-</div>
+                    <label for="project" class="form-label">Project</label>
+                    <textarea name="project" id="project" class="form-control summernote"></textarea>
+                </div>
 
-                  <div class="mb-3">
-                    <label for="Project" class="form-label">Project</label>
-                    <textarea name="Project" id="Project" class="form-control summernote"></textarea>
-</div>
-                  <div class="mb-3">
-                    <label for="profile" class="form-label">profile</label>
-                     <input type="file" name="profile_img" id="profile" class="form-control">
-</div>
+                
+                <div class="mb-3">
+                    <label for="profile" class="form-label">Profile Image</label>
+                     <input type="file" name="profile_image" id="profile" class="form-control">
+                     <?php if(isset($_SESSION['image_err'])){ ?>
+                        <span class="text-danger"><?=$_SESSION['image_err'] ?></span>
+                    <?php } ?>
+                </div>
+
                 <button type="submit" name="submit" class="btn btn-primary w-100">Submit</button>
             </form>
         </div>
     </div>
 </div>
 
-<?php
-include "footer.php";
+<?php 
+
+    session_unset();
+    include "footer.php"; 
+
+    session_unset();
 ?>
+
 <script>
     $(document).ready(function() {
-        $('.summernote').summernote({
-            height: 100
-        });
+        $('.summernote').summernote({ height: 100 });
     });
-  </script>
+</script>
